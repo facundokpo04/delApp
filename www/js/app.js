@@ -1,6 +1,6 @@
 var API = {
     'token_name': 'APP-TOKEN', // EL NOMBRE DEL TOKEN QUE HAN DEFINIDO PARA SU API
-    'base_url': 'http://localhost/proyecto2/SistemaDF/deliveryapi/public/' // LA URL DE SU API
+    'base_url': 'http://35.184.187.29/delApi/public/' // LA URL DE SU API
 };
 
 
