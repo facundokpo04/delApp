@@ -1,39 +1,6 @@
 angular.module('app.services', ['ngResource'])
 
 
-        .factory('fireBaseData', function ($firebase) {
-            var ref = new Firebase("https://cart-9cee0.firebaseio.com/"),
-                    refCart = new Firebase("https://cart-9cee0.firebaseio.com/cart"),
-                    refUser = new Firebase("https://cart-9cee0.firebaseio.com/users"),
-                    refCategory = new Firebase("https://cart-9cee0.firebaseio.com/category"),
-                    refOrder = new Firebase("https://cart-9cee0.firebaseio.com/orders"),
-                    refFeatured = new Firebase("https://cart-9cee0.firebaseio.com/featured"),
-                    refMenu = new Firebase("https://cart-9cee0.firebaseio.com/menu");
-            return {
-                ref: function () {
-                    return ref;
-                },
-                refCart: function () {
-                    return refCart;
-                },
-                refUser: function () {
-                    return refUser;
-                },
-                refCategory: function () {
-                    return refCategory;
-                },
-                refOrder: function () {
-                    return refOrder;
-                },
-                refFeatured: function () {
-                    return refFeatured;
-                },
-                refMenu: function () {
-                    return refMenu;
-                }
-            }
-        })
-
 
         .factory('sharedUtils', ['$ionicLoading', '$ionicPopup', function ($ionicLoading, $ionicPopup) {
 
@@ -65,94 +32,7 @@ angular.module('app.services', ['ngResource'])
 
             }])
 
-        .service('CheckoutValidation', function () {
-
-            this.validateName = function (name) {
-                if (typeof name == 'undefined' || name == '') {
-                    return false;
-                } else {
-                    return true;
-                }
-            };
-            this.validateEmail = function (email) {
-                if (typeof email == 'undefined' || email == '') {
-                    return false;
-                }
-                var emailReg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                return emailReg.test(email);
-            };
-            this.validateZipcode = function (zipcode) {
-                if (typeof zipcode == 'undefined' || zipcode == '') {
-                    return false;
-                }
-                var zipReg = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
-                return zipReg.test(zipcode);
-            };
-            this.checkLoggedInputs = function (checkoutDetails) {
-                if (Object.keys(checkoutDetails).length === 0) {
-                    return false;
-                }
-                for (var input in checkoutDetails) {
-                    if (!this.validateName(checkoutDetails['firstName'])) {
-                        return false;
-                    }
-                    if (!this.validateName(checkoutDetails['lastName'])) {
-                        return false;
-                    }
-                    if (!this.validateName(checkoutDetails['addressLineOne'])) {
-                        return false;
-                    }
-                    if (!this.validateName(checkoutDetails['city'])) {
-                        return false;
-                    }
-                    if (!this.validateName(checkoutDetails['state'])) {
-                        return false;
-                    }
-                    if (!this.validateZipcode(checkoutDetails['zipcode'])) {
-                        return false;
-                    }
-                    if (!this.validateName(checkoutDetails['country'])) {
-                        return false;
-                    }
-                }
-                return true;
-            }.bind(this);
-            this.checkAll = function (checkoutDetails) {
-                if (Object.keys(checkoutDetails).length === 0) {
-                    return false;
-                }
-                for (var input in checkoutDetails) {
-                    if (!this.validateName(checkoutDetails['firstName'])) {
-                        return false;
-                    }
-                    if (!this.validateName(checkoutDetails['lastName'])) {
-                        return false;
-                    }
-                    if (!this.validateEmail(checkoutDetails['email'])) {
-                        return false;
-                    }
-                    if (!this.validateName(checkoutDetails['password'])) {
-                        return false;
-                    }
-                    if (!this.validateName(checkoutDetails['addressLineOne'])) {
-                        return false;
-                    }
-                    if (!this.validateName(checkoutDetails['city'])) {
-                        return false;
-                    }
-                    if (!this.validateName(checkoutDetails['state'])) {
-                        return false;
-                    }
-                    if (!this.validateZipcode(checkoutDetails['zipcode'])) {
-                        return false;
-                    }
-                    if (!this.validateName(checkoutDetails['country'])) {
-                        return false;
-                    }
-                }
-                return true;
-            }.bind(this);
-        })
+      
 
 
 
@@ -508,20 +388,7 @@ angular.module('app.services', ['ngResource'])
                                                                 return auth;
 
 
-                                                            }])
-                                                        .factory("Request", function () {
-                                                            var request = function request(config)
-                                                            {
-                                                                config.headers["Content-Type"] = "application/x-www-form-urlencoded";
-
-
-                                                                return config;
-                                                            }
-
-                                                            return {
-                                                                request: request
-                                                            }
-                                                        })
+                                                            }])                                                       
                                                         .factory('BlankFactory', [function () {
 
                                                             }])

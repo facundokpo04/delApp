@@ -29,19 +29,7 @@ angular.module('app.controllers', [])
 
 
             //chekear si ya esta logeado
-//            Check if user already logged in
-//            firebase.auth().onAuthStateChanged(function (user) {
-//                if (user) {
-//                    $ionicHistory.nextViewOptions({
-//                        historyRoot: true
-//                    });
-//                    $ionicSideMenuDelegate.canDragContent(true);  // Sets up the sideMenu dragable
-//                    $rootScope.extras = true;
-//                    sharedUtils.hideLoading();
-//                    $state.go('menu2', {}, {location: "replace"});
-//
-//                }
-//            });
+//        
             $scope.login = function (formName, cred) {
 
                 auth.getToken();
@@ -96,48 +84,7 @@ angular.module('app.controllers', [])
             }
 
 
-            $scope.loginEmail = function (formName, cred) {
-
-
-                if (formName.$valid)
-                {  // Check if the form data is valid or not
-
-                    sharedUtils.showLoading();
-
-                    //Email
-                    firebase.auth().signInWithEmailAndPassword(cred.email, cred.password).then(function (result)
-                    {
-
-                        // You dont need to save the users session as firebase handles it
-                        // You only need to :
-                        // 1. clear the login page history from the history stack so that you cant come back
-                        // 2. Set rootScope.extra;
-                        // 3. Turn off the loading
-                        // 4. Got to menu page
-
-                        $ionicHistory.nextViewOptions(
-                                {
-                                    historyRoot: true
-                                });
-                        $rootScope.extras = true;
-                        sharedUtils.hideLoading();
-                        $state.go('menu2', {}, {location: "replace"});
-
-                    },
-                            function (error)
-                            {
-                                sharedUtils.hideLoading();
-                                sharedUtils.showAlert("Please note", "Authentication Error");
-                            }
-                    );
-
-                } else {
-                    sharedUtils.showAlert("Please note", "Entered data is not valid");
-                }
-
-
-
-            };
+         
 
 
             $scope.loginFb = function () {
@@ -152,7 +99,7 @@ angular.module('app.controllers', [])
         })
 
         .controller('signupCtrl', function ($scope, $rootScope, sharedUtils, $ionicSideMenuDelegate,
-                $state, fireBaseData, $ionicHistory, restApi, auth) {
+                $state, $ionicHistory, restApi, auth) {
             $rootScope.extras = false; // For hiding the side bar and nav icon
 
 
@@ -203,54 +150,12 @@ angular.module('app.controllers', [])
 
             }
 
-            $scope.signupEmail = function (formName, cred) {
-
-                if (formName.$valid)
-                {  // Check if the form data is valid or not
-
-                    sharedUtils.showLoading();
-
-                    //Main Firebase Authentication part
-                    firebase.auth().createUserWithEmailAndPassword(cred.email, cred.password).then(function (result)
-                    {
-
-                        //Add name and default dp to the Autherisation table
-                        result.updateProfile(
-                                {
-                                    displayName: cred.name,
-                                    photoURL: "default_dp"
-                                }).then(function ()
-                        {}, function (error) {});
-
-                        //Add phone number to the user table
-                        fireBaseData.refUser().child(result.uid).set({
-                            telephone: cred.phone
-                        });
-
-                        //Registered OK
-                        $ionicHistory.nextViewOptions({
-                            historyRoot: true
-                        });
-                        $ionicSideMenuDelegate.canDragContent(true);  // Sets up the sideMenu dragable
-                        $rootScope.extras = true;
-                        sharedUtils.hideLoading();
-                        $state.go('menu2', {}, {location: "replace"});
-
-                    }, function (error) {
-                        sharedUtils.hideLoading();
-                        sharedUtils.showAlert("Please note", "Sign up Error");
-                    });
-
-                } else {
-                    sharedUtils.showAlert("Please note", "Entered data is not valid");
-                }
-
-            }
+       
 
         })
 
-        .controller('menu2Ctrl', function ($scope, $rootScope, $ionicSideMenuDelegate, fireBaseData, $state,
-                $ionicHistory, $firebaseArray, sharedCartService, sharedUtils, restApi, auth) {
+        .controller('menu2Ctrl', function ($scope, $rootScope, $ionicSideMenuDelegate, $state,
+                $ionicHistory, sharedCartService, sharedUtils, restApi, auth) {
 //
 
             if (auth.hasToken())
@@ -391,24 +296,7 @@ angular.module('app.controllers', [])
 
             }
 
-            //Check if user already logged in
-//            firebase.auth().onAuthStateChanged(function (user) {
-//                if (user) {
-//                    $scope.user_info = user; //Saves data to user_info
-//                } else {
-//
-//                    $ionicSideMenuDelegate.toggleLeft(); //To close the side bar
-//                    $ionicSideMenuDelegate.canDragContent(false);  // To remove the sidemenu white space
-//
-//                    $ionicHistory.nextViewOptions({
-//                        historyRoot: true
-//                    });
-//                    $rootScope.extras = false;
-//                    sharedUtils.hideLoading();
-//                    $state.go('tabsController.login', {}, {location: "replace"});
-//
-//                }
-//            });
+        
 
             // On Loggin in to menu page, the sideMenu drag state is set to true
             $ionicSideMenuDelegate.canDragContent(true);
@@ -1076,7 +964,7 @@ angular.module('app.controllers', [])
 
         })
 
-        .controller('lastOrdersCtrl', function ($scope, $rootScope, fireBaseData, sharedUtils, auth) {
+        .controller('lastOrdersCtrl', function ($scope, $rootScope, sharedUtils, auth) {
 
             $rootScope.extras = true;
             sharedUtils.showLoading();
@@ -1111,8 +999,8 @@ angular.module('app.controllers', [])
             $rootScope.extras = true;
         })
 
-        .controller('settingsCtrl', function ($scope, $rootScope, fireBaseData, $firebaseObject,
-                $ionicPopup, $state, $window, $firebaseArray, sharedUtils, auth, restApi) {
+        .controller('settingsCtrl', function ($scope, $rootScope,
+                $ionicPopup, $state, $window , sharedUtils, auth, restApi) {
             //Bugs are most prevailing here
             $rootScope.extras = true;
             $scope.usuario = {};
@@ -1385,8 +1273,8 @@ angular.module('app.controllers', [])
             $rootScope.extras = false;
         })
 
-        .controller('checkoutCtrl', function ($scope, $rootScope, sharedUtils, $state, $firebaseArray,
-                $ionicHistory, fireBaseData, $ionicPopup, auth, restApi, sharedCartService) {
+        .controller('checkoutCtrl', function ($scope, $rootScope, sharedUtils, $state,
+                $ionicHistory , $ionicPopup, auth, restApi, sharedCartService) {
 
             $rootScope.extras = true;
             $scope.usuario = {};
@@ -1487,40 +1375,10 @@ angular.module('app.controllers', [])
 //                    });
 //                    
                     //cargar item al carrito
-                    // Loop throw all the cart item
-//                    for (var i = 0; i < sharedCartService.cart_items.length; i++) {
-//                        //Add cart item to order table
-//                        fireBaseData.refOrder().push({
-//
-//                            //Product data is hardcoded for simplicity
-//                            product_name: sharedCartService.cart_items[i].item_name,
-//                            product_price: sharedCartService.cart_items[i].item_price,
-//                            product_image: sharedCartService.cart_items[i].item_image,
-//                            product_id: sharedCartService.cart_items[i].$id,
-//
-//                            //item data
-//                            item_qty: sharedCartService.cart_items[i].item_qty,
-//
-//                            //Order data
-//                            user_id: $scope.user_info.uid,
-//                            user_name: $scope.user_info.displayName,
-//                            address_id: address,
-//                            payment_id: payment,
-//                            status: "Queued"
-//                        });
-//
-//                    }
+                    
 //
 //                    //Remove users cart
-//                    fireBaseData.refCart().child($scope.user_info.uid).remove();
-//
-//                    sharedUtils.showAlert("Info", "Order Successfull");
-//
-//                    // Go to past order page
-//                    $ionicHistory.nextViewOptions({
-//                        historyRoot: true
-//                    });
-//                    $state.go('lastOrders', {}, {location: "replace", reload: true});
+
                 }
             }
 
@@ -1651,8 +1509,8 @@ angular.module('app.controllers', [])
 
         })
 
-        .controller('checkoutCtrl2', function ($scope, $rootScope, sharedUtils, $state, $firebaseArray,
-                $ionicHistory, fireBaseData, $ionicPopup, sharedCartService) {
+        .controller('checkoutCtrl2', function ($scope, $rootScope, sharedUtils, $state,
+                $ionicHistory, $ionicPopup, sharedCartService) {
 
         })
 
